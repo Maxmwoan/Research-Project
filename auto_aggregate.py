@@ -12,15 +12,15 @@ def agg_diff_states(trained_on, eval_on):
     CI_sizes = []
     percent_inside_CI = []
 
-    with open(f'experiment1/trained{trained_on}/eval{eval_on}/state1/data_summary.txt', 'r') as file1:
+    with open(f'newexperiment1/trained{trained_on}/eval{eval_on}/state1/data_summary.txt', 'r') as file1:
         # Read all lines into a list
         lines1 = file1.readlines()
 
-    with open(f'experiment1/trained{trained_on}/eval{eval_on}/state8/data_summary.txt', 'r') as file2:
+    with open(f'newexperiment1/trained{trained_on}/eval{eval_on}/state8/data_summary.txt', 'r') as file2:
         # Read all lines into a list
         lines2 = file2.readlines()
 
-    with open(f'experiment1/trained{trained_on}/eval{eval_on}/state42/data_summary.txt', 'r') as file3:
+    with open(f'newexperiment1/trained{trained_on}/eval{eval_on}/state42/data_summary.txt', 'r') as file3:
         # Read all lines into a list
         lines3 = file3.readlines()
 
@@ -96,7 +96,7 @@ def agg_diff_states(trained_on, eval_on):
     # create_MEA_PercentCI()
     # plt.show()
 
-    output_dir = f"experiment1/trained{trained_on}/eval{eval_on}/aggregate"
+    output_dir = f"newexperiment1/trained{trained_on}/eval{eval_on}/aggregate"
     os.makedirs(output_dir, exist_ok=True)
 
     with open(f"{output_dir}/data_summary_trained{trained_on}_eval{eval_on}.txt", "w") as f:

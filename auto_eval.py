@@ -110,7 +110,7 @@ def gather_the_data(model, test_data_UDUL):
     create_MEA_PercentCI()
     plt.show()
 
-    directory = f"experiment1/trained{trained_on}/eval{eval_on}/state{data_split_state}"
+    directory = f"newexperiment1/trained{trained_on}/eval{eval_on}/state{data_split_state}"
     os.makedirs(directory, exist_ok=True)
 
     with open(f"{directory}/data_summary.txt", "w") as f:
@@ -159,7 +159,7 @@ if __name__ == "__main__":
     }
     states = [1,8,42]
     train_data_indices, test_data_indices = train_test_split(np.arange(len(OPENML_ID)),
-                                                         test_size=0.2,
+                                                         test_size=0.5,
                                                          random_state=1)
     for trained_on in groups.keys():
         for eval_on in groups.keys():
