@@ -22,7 +22,7 @@ import os
 
 
 
-def gather_the_data(model, test_data_UDUL):
+def gather_the_data(model, test_data_UDUL, augment_string):
     mean_absolute_errors = []
     CI_sizes = []
     percent_inside_CI = []
@@ -104,13 +104,13 @@ def gather_the_data(model, test_data_UDUL):
         plt.ylabel('Percentage Inside Confidence Interval')
         plt.title('2D Histogram: MAE vs CI accuracy')
 
-    create_CI_plot()
-    plt.show()
+    # create_CI_plot()
+    # plt.show()
+    #
+    # create_MEA_PercentCI()
+    # plt.show()
 
-    create_MEA_PercentCI()
-    plt.show()
-
-    directory = f"newexperiment1/trained{trained_on}/eval{eval_on}/state{data_split_state}"
+    directory = f"experiment{experiment}/trained{trained_on}/eval{eval_on}/state{data_split_state}{augment_string}"
     os.makedirs(directory, exist_ok=True)
 
     with open(f"{directory}/data_summary.txt", "w") as f:
@@ -147,19 +147,25 @@ if __name__ == "__main__":
 
     mean_valid_lc_nofs =np.nanmean(lc_data, axis=(2, 3))
 
+    # groups = {
+    #     "SVC": [0, 1, 2, 3],
+    #     "Trees": [4, 5, 20, 21, 22],
+    #     "NB": [14, 15, 16, 17],
+    #     "Neighbors": [18, 19],
+    #     "DA": [12, 13],
+    #     "Linear": [6, 7, 8, 9, 10],
+    #     "nn": [11],
+    #     "Dummy": [23]
+    # }
+    experiment = 3
     groups = {
-        "SVC": [0, 1, 2, 3],
         "Trees": [4, 5, 20, 21, 22],
-        "NB": [14, 15, 16, 17],
-        "Neighbors": [18, 19],
-        "DA": [12, 13],
-        "Linear": [6, 7, 8, 9, 10],
-        "nn": [11],
-        "Dummy": [23]
+        "QDA": [13],
+        "LDA": [12]
     }
     states = [1,8,42]
     train_data_indices, test_data_indices = train_test_split(np.arange(len(OPENML_ID)),
-                                                         test_size=0.5,
+                                                         test_size=0.2,
                                                          random_state=1)
     for trained_on in groups.keys():
         for eval_on in groups.keys():
@@ -171,8 +177,12 @@ if __name__ == "__main__":
                 train_learner_indices = np.array(groups[trained_on])
                 test_learner_indices = np.array(groups[eval_on])
                 test_data_UDUL = lc_data[test_data_indices][:, test_learner_indices, :].transpose(0, 2, 3, 1, 4).reshape(-1, 1, 137)
-                model_dir = f"models/{trained_on}/lcpfn_{trained_on}_state{data_split_state}_300.pth"
+                model_dir = f"models_experiment{experiment}/{trained_on}/lcpfn_{trained_on}_state{data_split_state}_300_augment.pth"
                 print(model_dir)
                 model = torch.load(model_dir, weights_only=False)
-                model.eval()
-                gather_the_data(model, test_data_UDUL)
+                gather_the_data(model, test_data_UDUL, "augment")
+                if experiment == 3:
+                    model_dir = f"models_experiment{experiment}/{trained_on}/lcpfn_{trained_on}_state{data_split_state}_300_no_augment.pth"
+                    print(model_dir)
+                    model = torch.load(model_dir, weights_only=False)
+                    gather_the_data(model, test_data_UDUL, "no_augment")
