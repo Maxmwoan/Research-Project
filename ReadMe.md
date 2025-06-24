@@ -1,6 +1,6 @@
 # "How Much Data is Enough?" Modelling Learning Curves
 
-This repo is used for student research project CSE3000 only. 
+## Important: This repository is part of the [TU Delft Research Project](https://github.com/TU-Delft-CSE/Research-Project) for the Computer Science and Engineering Bachelor program. 
 
 Acknowledgement: The code under the [`lcpfn`](./lcpfn/) folder is originally from the [LC-PFN](https://github.com/automl/lcpfn) project.
 
